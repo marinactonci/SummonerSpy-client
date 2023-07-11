@@ -1,0 +1,64 @@
+<section class="container mx-auto py-28 min-h-[calc(100vh-68px-64px)]">
+  <h1 class="text-3xl font-bold text-center mb-20">LEADERBOARDS</h1>
+  <div class="flex gap-3 justify-center items-center">
+    <h2>Select a region:</h2>
+    <select class="select border-black border max-w-xs" (change)="onRegionSelect($event.target.value)">
+      <option *ngFor="let region of regionsList">{{ region.name }}</option>
+    </select>
+  </div>
+  <div *ngIf="isLoading" class="flex justify-center mt-20"><span class="loading loading-spinner loading-lg"></span></div>
+  <div *ngIf="!isLoading" class="overflow-x-auto">
+    <div class="flex justify-end mb-4 mt-20">
+      <div class="join">
+        <div class="relative w-full h-full">
+          <input class="input input-bordered join-item relative" placeholder="Summoner name" [(ngModel)]="searchValue" (keydown.enter)="search(searchValue)"/>
+          <div *ngIf="hasSearched" (click)="clear()"
+               class="absolute hover:cursor-pointer top-[50%] right-3 translate-y-[-50%] rounded-full bg-neutral text-white w-4 h-4 text-[8px] grid place-items-center hover:outline hover:outline-1"><i class="fa-solid fa-x"></i></div>
+        </div>
+        <button class="btn join-item" [disabled]="searchValue.length < 1" (click)="search(searchValue)">Search</button>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Summoner Name</th>
+          <th>Points</th>
+          <th>Win Ratio</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!hasNoResults">
+        <tr *ngFor="let item of leaderboardInfo; let i = index " class="hover hover:cursor-pointer">
+          <td>{{ item.rank }}</td>
+          <td>{{ item.summonerName }}</td>
+          <td>{{ item.points }}</td>
+          <td class="flex gap-3 items-center">
+            <div class="w-full">
+              <div class="flex items-center justify-between">
+                <div>{{ item.stats.wins }}W</div>
+                <div>{{ item.stats.losses }}L</div>
+              </div>
+              <progress class="progress" [value]="item.stats.winrate" max="100"></progress>
+            </div>
+            <div>{{ item.stats.winrate }}%</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="hasNoResults" class="w-full mt-12 flex justify-center">
+      <span class="text-xl">No players found!</span>
+    </div>
+    <div *ngIf="!hasNoResults" class="flex justify-end gap-3 mt-8">
+      <div class="join">
+        <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
+        <button class="join-item btn">Page {{ currentPage }} of {{ maxPage }}</button>
+        <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === maxPage">»</button>
+      </div>
+      <div class="btn">{{ tempArr.length }} Players</div>
+      <select class="btn" (change)="updateItemsPerPage($event.target.value)" [(ngModel)]="itemsPerPage">
+        <!--<option disabled selected [value]="itemsPerPage">{{ itemsPerPage }}</option>-->
+        <option *ngFor="let value of itemsPerPageList" [value]="value">{{ value }}</option>
+      </select>
+    </div>
+  </div>
+</section>

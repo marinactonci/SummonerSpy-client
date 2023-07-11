@@ -1,0 +1,42 @@
+<div class="navbar bg-neutral flex justify-between">
+  <div class="flex items-center">
+    <a class="btn btn-ghost normal-case text-xl text-white" routerLink="/">Summoner Spy</a>
+  </div>
+  <div *ngIf="!isLandingPage" class="form-control hidden w-80 sm:flex">
+    <app-search></app-search>
+  </div>
+  <div class="gap-2">
+    <!--<div>
+      <button type="button" class="btn btn-ghost text-white text-xl w-14" (click)="isDarkTheme = !isDarkTheme">
+        <i *ngIf="!isDarkTheme" class="fa-solid fa-sun"></i>
+        <i *ngIf="isDarkTheme" class="fa-solid fa-moon"></i>
+      </button>
+    </div>-->
+    <div class="drawer">
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <!-- Page content here -->
+        <label for="my-drawer" class="btn btn-ghost drawer-button text-white text-xl w-14">
+          <i class="fas fa-bars"></i>
+        </label>
+      </div>
+      <div class="drawer-side z-40">
+        <label for="my-drawer" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 h-full bg-neutral text-white">
+          <!-- Sidebar content here -->
+          <li><a routerLink="/" class="hover:text-white hover:translate-x-2 md:text-lg">Home</a></li>
+          <li><a routerLink="/leaderboards" class="hover:text-white hover:translate-x-2 md:text-lg">Leaderboards</a></li>
+          <li><a routerLink="/free-rotation" class="hover:text-white hover:translate-x-2 md:text-lg">Free Rotation</a></li>
+          <li><a routerLink="/esports" class="hover:text-white hover:translate-x-2 md:text-lg">Esports</a></li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn">Log In</button>
+    <div class="dropdown dropdown-end">
+      <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a routerLink="/">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
