@@ -1,6 +1,6 @@
-<section class="container mx-auto py-28 px-3 min-h-[calc(100vh-68px-64px)]">
+<section class="container mx-auto py-28 px-3 min-h-[calc(100vh-80px-64px)]">
   <h1 class="text-center text-3xl uppercase font-bold mb-8">Free Champion Rotation</h1>
-  <h2 class="text-center text-xl mb-24">Discover the Current Selection of Free Champions in League of Legends</h2>
+  <h2 class="text-center text-xl mb-24">Discover this week's selection of free Champions in League of Legends</h2>
   <div *ngIf="isLoading" class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>
   <div *ngIf="!isLoading" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     <div *ngFor="let id of freeChampionIds" class="relative rounded-lg overflow-hidden group">

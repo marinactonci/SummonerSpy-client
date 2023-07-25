@@ -9,13 +9,15 @@ import {RegisterComponent} from "./register/register.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {LeaderboardsComponent} from "./leaderboards/leaderboards.component";
 import {FreeRotationComponent} from "./free-rotation/free-rotation.component";
+import {MultiSearchComponent} from "./multi-search/multi-search.component";
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
-  { path: 'summoners/:majorRegionCode/:regionCode/:summonerName', component: SummonerComponent },
+  { path: 'summoners/:regionCode/:summonerName', component: SummonerComponent },
   { path: 'leaderboards', component: LeaderboardsComponent },
   { path: 'free-rotation', component: FreeRotationComponent },
   { path: 'esports', component: EsportsComponent },
+  { path: 'multisearch', component: MultiSearchComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

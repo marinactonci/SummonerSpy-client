@@ -5,7 +5,7 @@ import {SharedService} from "../services/shared.service";
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css']
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit {
   constructor(private sharedService: SharedService) {}
 
   ngOnInit() {

@@ -6,7 +6,7 @@ import {SharedService} from "../services/shared.service";
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.css']
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements OnInit {
   constructor(private sharedService: SharedService) {}
 
   ngOnInit() {

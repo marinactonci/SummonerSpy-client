@@ -1,33 +1,131 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiService} from "../services/api.service";
 import {SharedService} from "../services/shared.service";
+import {Region} from "../models/region.model";
+import {regions, champions} from "../utils/constants";
 @Component({
   selector: 'app-summoner',
   templateUrl: './summoner.component.html',
   styleUrls: ['./summoner.component.css']
 })
-export class SummonerComponent {
-  selectedRegion: any;
+export class SummonerComponent implements OnInit{
+  isLoading: boolean = false;
+  isLoadingMore: boolean = false;
+  selectedRegion: Region;
   summonerName: string;
+  summoner: any;
+  champions: any = champions;
+  start: number = 0;
+  count: number = 6;
+  matchIds: any;
+  matches: any[] = [];
+  rankedStats: any;
+  rankedSolo: any;
+  hasRankSolo: boolean = false;
+  rankedFlex: any;
+  hasRankFlex: boolean = false;
+  masteryPoints: any;
+  isWin: boolean;
+  isSummonerFound: boolean = true;
 
   constructor(private route: ActivatedRoute,
               private api: ApiService,
               private sharedService: SharedService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.sharedService.onLandingPageLoad(false);
+    this.route.params.subscribe(async params => {
+      this.isLoading = true;
+      this.resetVariables();
 
-    this.sharedService.currentRegion.subscribe((selectedRegion: any) => {
-      console.log('selectedRegion');
-      console.log(selectedRegion);
-      this.selectedRegion = selectedRegion;
+      this.summonerName = params['summonerName'];
+      this.selectedRegion = regions.find(region => region.shorthand === this.route.snapshot.params['regionCode']);
+      await this.getSummonerData();
+
+      this.isLoading = false;
     });
+  }
 
-    this.summonerName = this.route.snapshot.params['summonerName'];
+  async getSummonerData() {
+    let response = await this.api.getSummoner(this.selectedRegion.code, this.summonerName);
+    if (Object.keys(response).length === 0) {
+      this.isLoading = false;
+      this.isSummonerFound = false;
+      return;
+    }
+    this.summoner = response;
+    this.rankedStats = await this.api.getRankPoints(this.selectedRegion.code, this.summoner.id);
+    this.rankedSolo = {};
+    this.rankedFlex = {};
 
-    this.api.getSummoner(this.selectedRegion, this.summonerName).then((data) => {
-      console.log(data);
-    });
+
+
+    for (let item of this.rankedStats) {
+      if (item.queueType === 'RANKED_SOLO_5x5') {
+        this.rankedSolo = item;
+      } else if (item.queueType === 'RANKED_FLEX_SR') {
+        this.rankedFlex = item;
+      }
+
+      if (this.rankedSolo.tier) this.hasRankSolo = true;
+      if (this.rankedFlex.tier) this.hasRankFlex = true;
+      if (this.hasRankSolo) this.rankedSolo.winrate = Math.round((this.rankedSolo?.wins / (this.rankedSolo?.wins + this.rankedSolo?.losses)) * 100);
+      if (this.hasRankFlex) this.rankedFlex.winrate = Math.round((this.rankedFlex?.wins / (this.rankedFlex?.wins + this.rankedFlex?.losses)) * 100);
+    }
+
+    this.masteryPoints = await this.api.getMasteryPoints(this.selectedRegion.code, this.summoner.id);
+
+    await this.loadMatches();
+  }
+
+  async loadMatches() {
+    this.matchIds = await this.api.getAllMatches(this.selectedRegion.majorRegion, this.summoner.puuid, this.start.toString(), this.count.toString());
+
+    for (let i = 0; i < this.matchIds.length; i++) {
+      const singleMatch: any = await this.api.getMatch(this.selectedRegion.majorRegion, this.matchIds[i]);
+      for (let participant of singleMatch.info.participants) {
+        if (participant.summonerName === this.summonerName) {
+          singleMatch.info.isWin = participant.win;
+        }
+      }
+      this.matches.push(singleMatch);
+    }
+  }
+
+  async refresh() {
+    this.isLoading = true;
+    this.resetVariables();
+
+    await this.getSummonerData();
+    await this.loadMatches();
+
+    this.isLoading = false;
+  }
+
+  resetVariables() {
+    this.summoner = {};
+    this.start = 0;
+    this.count = 6;
+    this.matchIds = [];
+    this.matches = [];
+    this.rankedSolo = {};
+    this.rankedFlex = {};
+    this.hasRankSolo = false;
+    this.hasRankFlex = false;
+  }
+
+  async loadMoreMatches() {
+    this.isLoadingMore = true;
+    this.matchIds = {};
+    this.start += this.count;
+    await this.loadMatches();
+    this.isLoadingMore = false;
+  }
+
+  addToFavorites() {
+    let btn = document.getElementById('favorite-btn');
+    btn.classList.remove('btn-outline');
+    btn.classList.add('text-white');
   }
 }

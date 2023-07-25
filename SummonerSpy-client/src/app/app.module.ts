@@ -17,6 +17,10 @@ import {NgOptimizedImage} from "@angular/common";
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LeaderboardsComponent } from './leaderboards/leaderboards.component';
 import { FreeRotationComponent } from './free-rotation/free-rotation.component';
+import { MatchComponent } from './summoner/match/match.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {ToastrModule} from "ngx-toastr";
+
 
 @NgModule({
   declarations: [
@@ -32,14 +36,17 @@ import { FreeRotationComponent } from './free-rotation/free-rotation.component';
     EsportsComponent,
     NotFoundComponent,
     LeaderboardsComponent,
-    FreeRotationComponent
+    FreeRotationComponent,
+    MatchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgOptimizedImage
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

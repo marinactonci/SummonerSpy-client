@@ -1,18 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {SharedService} from "../../services/shared.service";
 import {regions} from "../../utils/constants";
 import {Region} from "../../models/region.model";
+import {Notyf} from "notyf";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+  @Input() isHeader: boolean;
   regionsList: Region[];
   selectedRegion: any;
   summonerName: string = '';
+  summoners: any[] = [];
+  notyf: Notyf = new Notyf();
+
   constructor(private router: Router,
               private sharedService: SharedService) {}
 
@@ -23,11 +28,11 @@ export class SearchComponent {
   onRegionSelect(selectedValue: string) {
     this.selectedRegion = this.regionsList.find(region => region.name === selectedValue);
   }
+
   search() {
-    if (this.summonerName) {
-      const url: string = `summoners/${this.selectedRegion.majorRegion}/${this.selectedRegion.shorthand}/${this.summonerName}`;
+    if (this.selectedRegion && this.summonerName.length > 0) {
+      const url: string = `summoners/${this.selectedRegion.shorthand}/${this.summonerName}`;
       this.router.navigateByUrl(url).then(r => console.log(r));
-      this.sharedService.onRegionSelect(this.selectedRegion);
     }
   }
 }

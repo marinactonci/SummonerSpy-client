@@ -7,21 +7,21 @@ import {SharedService} from "../services/shared.service";
   templateUrl: './free-rotation.component.html',
   styleUrls: ['./free-rotation.component.css']
 })
-export class FreeRotationComponent {
+export class FreeRotationComponent implements OnInit {
   freeChampionIds: number[] = [];
   champions: any;
   isLoading: boolean = false;
   constructor(private api: ApiService,
               private shared: SharedService) {}
+
   async ngOnInit() {
     this.shared.onLandingPageLoad(false);
 
     this.isLoading = true;
     this.champions = champions;
 
-    await this.api.getFreeRotation().then((data) => {
-      this.freeChampionIds = data.freeChampionIds;
-    });
+    const data = await this.api.getFreeRotation();
+    this.freeChampionIds = data.freeChampionIds;
 
     this.isLoading = false;
   }

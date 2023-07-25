@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 import {SharedService} from "../services/shared.service";
 import {ApiService} from "../services/api.service";
 import {regions} from "../utils/constants";
@@ -10,7 +11,9 @@ import {Leaderboard} from "../models/leaderboard.model";
   templateUrl: './leaderboards.component.html',
   styleUrls: ['./leaderboards.component.css']
 })
-export class LeaderboardsComponent {
+export class LeaderboardsComponent implements OnInit {
+  queueTypes: string[] = ['RANKED_SOLO_5x5', 'RANKED_FLEX_SR'];
+  selectedQueueType: string;
   regionsList: Region[] = [];
   selectedRegion: any;
   leaderboardInfo: Leaderboard[] = [];
@@ -23,13 +26,15 @@ export class LeaderboardsComponent {
   startIndex: number;
   endIndex: number;
   maxPage: number;
+  numberOfResults: number = 0;
 
   searchValue: string = '';
   hasSearched: boolean = false;
   hasNoResults: boolean = false;
 
   constructor(private sharedService: SharedService,
-              private api: ApiService) {}
+              private api: ApiService,
+              private router: Router) {}
 
   async ngOnInit() {
     this.isLoading = true;
@@ -42,47 +47,53 @@ export class LeaderboardsComponent {
       if (region.leaderboardRegion) this.regionsList.push(region);
     }
     this.selectedRegion = this.regionsList[0];
+    this.selectedQueueType = this.queueTypes[0];
 
-    await this.getLeaderboardData(this.selectedRegion);
+    await this.getLeaderboardData();
   }
 
-  async getLeaderboardData(selectedRegion: any): Promise<void> {
+  async getLeaderboardData(): Promise<void> {
     this.isLoading = true;
     this.tempArr = [];
     let rank: number = 1;
 
-    await this.api.getLeaderboard(selectedRegion.code).then((data) => {
-      for (let item of data) {
-        this.tempArr.push({
-          summonerName: item.summonerName,
-          points: item.leaguePoints,
-          stats: {
-            wins: item.wins,
-            losses: item.losses,
-            winrate: Math.round(item.wins / (item.wins + item.losses) * 100)
-          }
-        });
-      }
-    });
-
+    const data = await this.api.getLeaderboard(this.selectedRegion.code, this.selectedQueueType);
+    if (Object.keys(data).length === 0) {
+      this.isLoading = false;
+      this.hasNoResults = true;
+      return;
+    }
+    for (let item of data) {
+      this.tempArr.push({
+        summonerName: item.summonerName,
+        points: item.leaguePoints,
+        stats: {
+          wins: item.wins,
+          losses: item.losses,
+          winrate: Math.round(item.wins / (item.wins + item.losses) * 100)
+        }
+      });
+    }
     this.tempArr.sort((a, b) => b.points - a.points);
-
     for (let item of this.tempArr) {
       item.rank = rank;
       rank++;
     }
-
     this.maxPage = Math.ceil(this.tempArr.length / this.itemsPerPage);
-
+    this.numberOfResults = this.tempArr.length;
     this.updateLeaderboard();
 
     this.isLoading = false;
   }
 
+  async onQueueTypeSelect(selectedValue: string): Promise<void> {
+    this.selectedQueueType = selectedValue;
+    await this.getLeaderboardData();
+  }
+
   async onRegionSelect(selectedValue: string): Promise<void> {
     this.selectedRegion = this.regionsList.find(region => region.name === selectedValue);
-    await this.getLeaderboardData(this.selectedRegion);
-    this.maxPage = Math.ceil(this.tempArr.length / this.itemsPerPage);
+    await this.getLeaderboardData();
   }
 
   async nextPage() {
@@ -130,13 +141,22 @@ export class LeaderboardsComponent {
     if (!this.leaderboardInfo.length) {
       this.hasNoResults = true;
     }
+    this.numberOfResults = this.leaderboardInfo.length;
   }
 
   clear() {
     this.hasSearched = false;
     this.searchValue = '';
     this.hasNoResults = false;
+    this.numberOfResults = this.tempArr.length;
     this.updateLeaderboard();
+  }
+
+  openSummoner(item) {
+    if (item.summonerName) {
+      const url: string = `summoners/${this.selectedRegion.shorthand}/${item.summonerName}`;
+      this.router.navigateByUrl(url).then(r => console.log(r));
+    }
   }
 }
 
