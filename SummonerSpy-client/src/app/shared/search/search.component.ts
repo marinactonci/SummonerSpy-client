@@ -3,7 +3,6 @@ import {Router} from "@angular/router";
 import {SharedService} from "../../services/shared.service";
 import {regions} from "../../utils/constants";
 import {Region} from "../../models/region.model";
-import {Notyf} from "notyf";
 
 @Component({
   selector: 'app-search',
@@ -15,11 +14,8 @@ export class SearchComponent implements OnInit {
   regionsList: Region[];
   selectedRegion: any;
   summonerName: string = '';
-  summoners: any[] = [];
-  notyf: Notyf = new Notyf();
 
-  constructor(private router: Router,
-              private sharedService: SharedService) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.regionsList = regions;

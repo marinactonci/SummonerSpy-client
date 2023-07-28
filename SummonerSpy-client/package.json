@@ -19,8 +19,6 @@
     "@angular/platform-browser-dynamic": "^16.1.6",
     "@angular/router": "^16.1.6",
     "express": "^4.18.2",
-    "ngx-toastr": "^17.0.2",
-    "notyf": "^3.10.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

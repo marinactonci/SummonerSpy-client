@@ -1,1 +1,35 @@
-<p>profile works!</p>
+<section class="container mx-auto py-28 px-[20px] min-h-[calc(100vh-80px-64px)]">
+  <div class="tabs">
+    <a class="tab tab-lg tab-lifted tab-active" (click)="changeTab($event.target, $event.target.value)">Profile</a>
+    <a class="tab tab-lg tab-lifted" (click)="changeTab($event.target, $event.target.value)">Password</a>
+    <a class="tab tab-lg tab-lifted" (click)="changeTab($event.target, $event.target.value)">Summoner</a>
+  </div>
+  <div *ngIf="currentTab === 'profile'">
+
+  </div>
+  <div *ngIf="currentTab === 'password'" class="p-6">
+    <h1 class="text-xl font-bold mb-3">Change password</h1>
+    <form class="flex flex-col gap-2">
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Current password</span>
+        </label>
+        <input type="password" name="password" class="input input-bordered w-full max-w-xs" [(ngModel)]="password"/>
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">New password</span>
+        </label>
+        <input type="password" name="newPassword" class="input input-bordered w-full max-w-xs" [(ngModel)]="newPassword"/>
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Repeat password</span>
+        </label>
+        <input type="password" name="repeatPassword" class="input input-bordered w-full max-w-xs" [(ngModel)]="repeatPassword"/>
+      </div>
+      <div><button class="btn btn-neutral" (click)="changePassword()">Change password</button></div>
+    </form>
+  </div>
+  <div *ngIf="currentTab === 'summoner'"></div>
+</section>

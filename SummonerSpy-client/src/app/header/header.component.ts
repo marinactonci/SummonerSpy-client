@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SharedService} from "../services/shared.service";
 import {Router} from "@angular/router";
 import {FirebaseService} from "../services/firebase.service";
-import {Notyf} from "notyf";
-import {ToastrService} from "ngx-toastr";
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,24 +12,45 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   user: any;
   isLandingPage: boolean = false;
+  notyf: Notyf = new Notyf();
 
-  constructor(private sharedService: SharedService,
+  hasProfileAccount: boolean = false;
+  profileAccount: any;
+
+  constructor(private shared: SharedService,
               private router: Router,
-              private firebase: FirebaseService,
-              private toastr: ToastrService) {}
+              private firebase: FirebaseService) {}
 
   async ngOnInit() {
-    this.sharedService.currentLandingPage.subscribe(async isLandingPage => {
+    this.shared.currentLandingPage.subscribe(async isLandingPage => {
       this.isLandingPage = isLandingPage;
 
       const result = await this.firebase.userStatus();
       if (result) {
         this.isLoggedIn = true;
         this.user = result;
+        if (!this.user.displayName) this.user.displayName = this.user.email.split('@')[0];
+        const result2: any = await this.firebase.getProfileAccount(this.user.uid);
+        if (result2 && !result2.message) {
+          this.hasProfileAccount = true;
+          this.profileAccount = result2;
+        } else {
+          this.hasProfileAccount = false;
+          this.profileAccount = null;
+        }
+        this.shared.currentProfileAccount.subscribe(async isRemovedFromProfile => {
+          if (isRemovedFromProfile) {
+            this.hasProfileAccount = false;
+            this.profileAccount = null;
+          } else {
+            const result3: any = await this.firebase.getProfileAccount(this.user.uid);
+            if (result3 && !result3.message) {
+              this.hasProfileAccount = true;
+              this.profileAccount = result3;
+            }
+          }
+        });
       }
-
-      console.log('this.isLoggedIn', this.isLoggedIn);
-      console.log('this.user', this.user);
     });
   }
 
@@ -42,14 +62,11 @@ export class HeaderComponent implements OnInit {
     const response: any = await this.firebase.logout();
 
     if (response.error) {
-      console.log('response');
-      console.log(response);
-      this.toastr.error(response.error.message);
+      this.notyf.error(response.error.message);
     } else {
       this.isLoggedIn = false;
       this.user = null;
-      this.toastr.success('Logout successful!');
-      this.router.navigateByUrl('/').then(r => console.log(r));
+      this.notyf.success('Logout successful!');
     }
   }
 }

@@ -32,7 +32,7 @@ export class LeaderboardsComponent implements OnInit {
   hasSearched: boolean = false;
   hasNoResults: boolean = false;
 
-  constructor(private sharedService: SharedService,
+  constructor(private shared: SharedService,
               private api: ApiService,
               private router: Router) {}
 
@@ -41,7 +41,7 @@ export class LeaderboardsComponent implements OnInit {
     this.startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.endIndex = this.startIndex + this.itemsPerPage;
     this.itemsPerPage = this.itemsPerPageList[2];
-    this.sharedService.onLandingPageLoad(false);
+    this.shared.onLandingPageLoad(false);
 
     for (let region of regions) {
       if (region.leaderboardRegion) this.regionsList.push(region);
@@ -54,6 +54,7 @@ export class LeaderboardsComponent implements OnInit {
 
   async getLeaderboardData(): Promise<void> {
     this.isLoading = true;
+    this.hasNoResults = false;
     this.tempArr = [];
     let rank: number = 1;
 

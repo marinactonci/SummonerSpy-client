@@ -12,14 +12,13 @@ import { SummonerComponent } from './summoner/summoner.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { EsportsComponent } from './esports/esports.component';
 import {NgOptimizedImage} from "@angular/common";
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LeaderboardsComponent } from './leaderboards/leaderboards.component';
 import { FreeRotationComponent } from './free-rotation/free-rotation.component';
 import { MatchComponent } from './summoner/match/match.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import {ToastrModule} from "ngx-toastr";
+import { FavoritesComponent } from './favorites/favorites.component';
 
 
 @NgModule({
@@ -33,11 +32,11 @@ import {ToastrModule} from "ngx-toastr";
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    EsportsComponent,
     NotFoundComponent,
     LeaderboardsComponent,
     FreeRotationComponent,
-    MatchComponent
+    MatchComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
@@ -45,8 +44,7 @@ import {ToastrModule} from "ngx-toastr";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgOptimizedImage,
-    ToastrModule.forRoot()
+    NgOptimizedImage
   ],
   providers: [],
   bootstrap: [AppComponent]

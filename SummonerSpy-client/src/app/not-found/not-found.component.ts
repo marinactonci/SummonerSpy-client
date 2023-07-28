@@ -7,9 +7,9 @@ import {SharedService} from "../services/shared.service";
   styleUrls: ['./not-found.component.css']
 })
 export class NotFoundComponent implements OnInit {
-  constructor(private sharedService: SharedService) {}
+  constructor(private shared: SharedService) {}
 
   ngOnInit() {
-    this.sharedService.onLandingPageLoad(false);
+    this.shared.onLandingPageLoad(false);
   }
 }

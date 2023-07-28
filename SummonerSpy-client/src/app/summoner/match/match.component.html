@@ -79,28 +79,27 @@
       </div>
     </div>
   </div>
-  <div class="hidden sm:grid sm:grid-cols-match sm:gap-x-5" [ngClass]="{'sm:gap-y-5': arenaTeams[0].length, 'sm:gap-y-1': !arenaTeams[0].length}">
-    <div *ngFor="let participant of this.sortedParticipants" class="flex w-auto gap-1 items-center max-w-sm">
-      <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + participant.championName + '.png'"
-           class="w-6 h-6 rounded-md" [alt]="participant.championName">
-      <button (click)="openSummoner(participant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': participant.summonerName === summonerName}">{{ participant.summonerName }}</button>
+  <div class="hidden sm:grid sm:grid-cols-match sm:gap-x-5" [ngClass]="{'sm:gap-y-5': arenaTeams[0].length}">
+    <div class="flex flex-col gap-1">
+      <div *ngFor="let bluePlayer of blueTeam" class="flex w-auto gap-1 items-center max-w-sm">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + bluePlayer.championName + '.png'"
+             class="w-6 h-6 rounded-md" [alt]="bluePlayer.championName">
+        <button (click)="openSummoner(bluePlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': bluePlayer.summonerName === summonerName}">{{ bluePlayer.summonerName }}</button>
+      </div>
     </div>
-    <div *ngFor="let participant of this.blueTeam" class="flex w-auto gap-1 items-center max-w-sm">
-      <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + participant.championName + '.png'"
-           class="w-6 h-6 rounded-md" [alt]="participant.championName">
-      <button (click)="openSummoner(participant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': participant.summonerName === summonerName}">{{ participant.summonerName }}</button>
-    </div>
-    <div *ngFor="let participant of this.redTeam" class="flex w-auto gap-1 items-center max-w-sm">
-      <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + participant.championName + '.png'"
-           class="w-6 h-6 rounded-md" [alt]="participant.championName">
-      <button (click)="openSummoner(participant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': participant.summonerName === summonerName}">{{ participant.summonerName }}</button>
+    <div class="flex flex-col gap-1">
+      <div *ngFor="let redPlayer of redTeam" class="flex w-auto gap-1 items-center max-w-sm">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + redPlayer.championName + '.png'"
+             class="w-6 h-6 rounded-md" [alt]="redPlayer.championName">
+        <button (click)="openSummoner(redPlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': redPlayer.summonerName === summonerName}">{{ redPlayer.summonerName }}</button>
+      </div>
     </div>
     <div *ngFor="let team of arenaTeams" class="flex flex-col w-auto gap-1 max-w-sm">
-      <div *ngFor="let participant of team" class="flex gap-1">
-        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + participant.championName + '.png'"
-             [alt]="participant.championName" width="25" height="25"
+      <div *ngFor="let arenaParticipant of team" class="flex gap-1">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + arenaParticipant.championName + '.png'"
+             [alt]="arenaParticipant.championName" width="25" height="25"
              class="w-6 h-6 rounded-md">
-        <button (click)="openSummoner(participant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': participant.summonerName === summonerName}">{{ participant.summonerName }}</button>
+        <button (click)="openSummoner(arenaParticipant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': arenaParticipant.summonerName === summonerName}">{{ arenaParticipant.summonerName }}</button>
       </div>
     </div>
   </div>

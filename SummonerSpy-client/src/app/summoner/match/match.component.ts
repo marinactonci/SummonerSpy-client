@@ -31,8 +31,6 @@ export class MatchComponent implements OnInit {
     this.result = this.match.isRemake ? 'Remake' : this.match.isWin ? 'Victory' : 'Defeat';
     this.summonerSpell = summonerSpell;
     this.runes = runes;
-    console.log('this.match');
-    console.log(this.match);
     for (let queue of queueIdArray) {
       if (queue.queueId === this.match.queueId) {
         this.gameMode = queue.description;
@@ -58,8 +56,6 @@ export class MatchComponent implements OnInit {
     for (let participant of this.match.participants) {
       if (participant.summonerName === this.summonerName) {
         this.player = participant;
-        if (participant.championName.toLowerCase() === 'milio') this.player.isMilio = true;
-        if (participant.championName.toLowerCase() === 'naafiri') this.player.isNaafiri = true;
         this.items = [ this.player.item0, this.player.item1, this.player.item2, this.player.item3,
           this.player.item4, this.player.item5];
         this.player.cs = this.player.totalMinionsKilled + this.player.neutralMinionsKilled;
@@ -69,38 +65,48 @@ export class MatchComponent implements OnInit {
 
       if (participant.championName.toLowerCase() === 'fiddlesticks') participant.championName = 'Fiddlesticks';
 
-      if (this.match.gameMode === 'CLASSIC') {
-        if (participant.teamId === 100) {
-          if (participant.individualPosition === 'TOP') {
-            this.sortedParticipants[0] = participant;
-          } else if (participant.individualPosition === 'JUNGLE') {
-            this.sortedParticipants[2] = participant;
-          } else if (participant.individualPosition === 'MIDDLE') {
-            this.sortedParticipants[4] = participant;
-          } else if (participant.individualPosition === 'BOTTOM') {
-            this.sortedParticipants[6] = participant;
-          } else if (participant.individualPosition === 'UTILITY') {
-            this.sortedParticipants[8] = participant;
-          }
-        } else if (participant.teamId === 200) {
-          if (participant.individualPosition === 'TOP') {
-            this.sortedParticipants[1] = participant;
-          } else if (participant.individualPosition === 'JUNGLE') {
-            this.sortedParticipants[3] = participant;
-          } else if (participant.individualPosition === 'MIDDLE') {
-            this.sortedParticipants[5] = participant;
-          } else if (participant.individualPosition === 'BOTTOM') {
-            this.sortedParticipants[7] = participant;
-          } else if (participant.individualPosition === 'UTILITY') {
-            this.sortedParticipants[9] = participant;
-          }
-        }
-      } else if (this.match.gameMode === 'CHERRY') {
+      if (this.match.gameMode === 'CHERRY') {
         this.arenaTeams[participant.placement - 1].push(participant);
       } else {
-        if (participant.teamId === 100) {
-          this.blueTeam.push(participant);
-        } else this.redTeam.push(participant);
+        if (participant.teamPosition) {
+          if (participant.teamId == 100) {
+            if (participant.teamPosition === 'TOP') {
+              this.blueTeam[0] = participant;
+            }
+            if (participant.teamPosition === 'JUNGLE') {
+              this.blueTeam[1] = participant;
+            }
+            if (participant.teamPosition === 'MIDDLE') {
+              this.blueTeam[2] = participant;
+            }
+            if (participant.teamPosition === 'BOTTOM') {
+              this.blueTeam[3] = participant;
+            }
+            if (participant.teamPosition === 'UTILITY') {
+              this.blueTeam[4] = participant;
+            }
+          } else if (participant.teamId == 200) {
+            if (participant.teamPosition === 'TOP') {
+              this.redTeam[0] = participant;
+            }
+            if (participant.teamPosition === 'JUNGLE') {
+              this.redTeam[1] = participant;
+            }
+            if (participant.teamPosition === 'MIDDLE') {
+              this.redTeam[2] = participant;
+            }
+            if (participant.teamPosition === 'BOTTOM') {
+              this.redTeam[3] = participant;
+            }
+            if (participant.teamPosition === 'UTILITY') {
+              this.redTeam[4] = participant;
+            }
+          }
+        } else {
+          if (participant.teamId === 100) {
+            this.blueTeam.push(participant);
+          } else this.redTeam.push(participant);
+        }
       }
     }
   }
@@ -115,7 +121,7 @@ export class MatchComponent implements OnInit {
     }
 
     if (item.summonerName) {
-      const url: string = `summoners/${this.selectedRegion.majorRegion}/${this.selectedRegion.shorthand}/${item.summonerName}`;
+      const url: string = `summoners/${this.selectedRegion.shorthand}/${item.summonerName}`;
       this.router.navigateByUrl(url).then(r => console.log(r));
     }
   }

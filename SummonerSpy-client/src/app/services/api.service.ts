@@ -6,25 +6,8 @@ import {BehaviorSubject, Observable, Subscription} from "rxjs";
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://127.0.0.1/lol-champ-select/v1/session';
-  private dataSubject= new BehaviorSubject<any>(null);
-  subscription= this.dataSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    //this.startPolling();
-  }
-
-  private startPolling(): void {
-    setInterval(() => {
-      this.fetchData();
-    }, 5000);
-  }
-
-  private fetchData(): void {
-    this.http.get(this.apiUrl).subscribe((data) => {
-      if (data) this.dataSubject.next(data);
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   getSummoner(selectedRegion: string, summonerName:string): Promise<any> {
     return new Promise(resolve => {
@@ -77,14 +60,6 @@ export class ApiService {
   getFreeRotation(): Promise<any> {
     return new Promise(resolve => {
       const a: Subscription = this.http.get(`http://localhost:4320/free-rotation`).subscribe((data) => {
-        resolve(data);
-      });
-    });
-  }
-
-  getSeries(seriesId: string): Promise<any> {
-    return new Promise(resolve => {
-      const a: Subscription = this.http.get(`http://localhost:4320/series/${seriesId}`).subscribe((data) => {
         resolve(data);
       });
     });

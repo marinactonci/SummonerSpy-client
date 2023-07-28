@@ -4,6 +4,7 @@ import {ApiService} from "../services/api.service";
 import {SharedService} from "../services/shared.service";
 import {Region} from "../models/region.model";
 import {regions, champions} from "../utils/constants";
+import {FirebaseService} from "../services/firebase.service";
 @Component({
   selector: 'app-summoner',
   templateUrl: './summoner.component.html',
@@ -16,8 +17,10 @@ export class SummonerComponent implements OnInit{
   summonerName: string;
   summoner: any;
   champions: any = champions;
+
   start: number = 0;
   count: number = 6;
+
   matchIds: any;
   matches: any[] = [];
   rankedStats: any;
@@ -29,12 +32,19 @@ export class SummonerComponent implements OnInit{
   isWin: boolean;
   isSummonerFound: boolean = true;
 
+  isLoggedIn: boolean = false;
+  user: any;
+  isFavorite: boolean = false;
+  isAddedToProfile: boolean = false;
+  isAddToProfileVisible: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private api: ApiService,
-              private sharedService: SharedService) { }
+              private shared: SharedService,
+              private firebase: FirebaseService) { }
 
   async ngOnInit() {
-    this.sharedService.onLandingPageLoad(false);
+    this.shared.onLandingPageLoad(false);
     this.route.params.subscribe(async params => {
       this.isLoading = true;
       this.resetVariables();
@@ -42,6 +52,8 @@ export class SummonerComponent implements OnInit{
       this.summonerName = params['summonerName'];
       this.selectedRegion = regions.find(region => region.shorthand === this.route.snapshot.params['regionCode']);
       await this.getSummonerData();
+      await this.userStatus();
+      await this.getProfileAccout();
 
       this.isLoading = false;
     });
@@ -123,9 +135,58 @@ export class SummonerComponent implements OnInit{
     this.isLoadingMore = false;
   }
 
-  addToFavorites() {
-    let btn = document.getElementById('favorite-btn');
-    btn.classList.remove('btn-outline');
-    btn.classList.add('text-white');
+  async userStatus() {
+    const result = await this.firebase.userStatus();
+    if (result) {
+      this.isLoggedIn = true;
+      this.user = result;
+      // check if summoner is in favorites
+      const favorites: any = await this.firebase.getFavorites(this.user.uid);
+      if (favorites && favorites.favorites && !favorites.error) {
+        for (let favorite of favorites.favorites) {
+          if (favorite.name === this.summoner.name && favorite.region === this.selectedRegion.code) {
+            this.isFavorite = true;
+          }
+        }
+      }
+    } else {
+      this.isLoggedIn = false;
+      this.user = {};
+    }
+  }
+
+  async toggleFavorite() {
+    if (!this.isFavorite) {
+      this.isFavorite = true;
+      await this.firebase.addToFavorites(this.user.uid, this.selectedRegion.code, this.summoner.name);
+    }
+    else {
+      this.isFavorite = false;
+      await this.firebase.removeFromFavorites(this.user.uid, this.selectedRegion.code, this.summoner.name);
+    }
+  }
+
+  async getProfileAccout() {
+    const result: any = await this.firebase.getProfileAccount(this.user.uid);
+    if (result && !result.message) {
+      this.isAddedToProfile = true;
+      if (this.summoner.name === result.name) this.isAddToProfileVisible = true;
+      else this.isAddToProfileVisible = false;
+    } else {
+      this.isAddToProfileVisible = true;
+      this.isAddedToProfile = false;
+    }
+  }
+
+  async addToProfile() {
+    this.isAddedToProfile = true;
+    await this.firebase.addProfileAccount(this.user.uid, this.selectedRegion.shorthand, this.summoner.name);
+    this.shared.onRemoveFromProfile(false);
+  }
+
+  async removeFromProfile() {
+    this.isAddedToProfile = false;
+    await this.firebase.removeProfileAccount(this.user.uid);
+    this.shared.onRemoveFromProfile(true);
   }
 }
