@@ -4,6 +4,7 @@ import {FirebaseService} from "../services/firebase.service";
 import {Router} from "@angular/router";
 import {ApiService} from "../services/api.service";
 import {regions} from "../utils/constants";
+import {Region} from "../models/region.model";
 
 @Component({
   selector: 'app-favorites',
@@ -71,7 +72,7 @@ export class FavoritesComponent implements OnInit {
         for (let summoner of this.favorites) {
           const favoriteSummoner: any = {};
           favoriteSummoner.name = summoner.name;
-          const region = regions.find(region => region.code === summoner.region);
+          const region: any = regions.find(region => region.code === summoner.region);
           favoriteSummoner.region = region.shorthand;
           favoriteSummoner.code = region.code;
 
@@ -129,12 +130,14 @@ export class FavoritesComponent implements OnInit {
     await this.firebase.addProfileAccount(this.user.uid, favoriteSummoner.region, favoriteSummoner.name);
     await this.getProfileAccount();
     favoriteSummoner.profileAccount = this.profileAccount;
+    this.shared.onRemoveFromProfile(false);
   }
 
   async removeFromProfile(favoriteSummoner: any) {
     this.profileAccount = null;
     favoriteSummoner.profileAccount = null;
     await this.firebase.removeProfileAccount(this.user.uid);
+    this.shared.onRemoveFromProfile(true);
   }
 
   async removeFavorite(region: string, name: string, ) {
