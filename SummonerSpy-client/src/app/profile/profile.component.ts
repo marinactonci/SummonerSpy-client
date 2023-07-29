@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   newPassword: string = '';
   repeatPassword: string = '';
   notyf = new Notyf();
+
   constructor(private shared: SharedService,
               private firebase: FirebaseService,
               private api: ApiService,

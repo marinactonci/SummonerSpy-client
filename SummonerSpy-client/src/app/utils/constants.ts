@@ -657,10 +657,3 @@ export const runes: {
   "8229": "Styles/Sorcery/ArcaneComet/ArcaneComet.png",
   "8230": "Styles/Sorcery/PhaseRush/PhaseRush.png",
 };
-
-export const leagues = {
-  "LEC": 4190,
-  "LCS": 4191,
-  "LCK": 4188,
-  "LPL": 4192,
-};
