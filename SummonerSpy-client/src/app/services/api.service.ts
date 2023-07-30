@@ -11,7 +11,7 @@ export class ApiService {
 
   getSummoner(selectedRegion: string, summonerName:string): Promise<any> {
     return new Promise(resolve => {
-      const a = this.http.get(`http://159.89.2.125/summoner/${selectedRegion}/${summonerName}`).subscribe((data) => {
+      const a = this.http.get(`https://summoner-spy.site/summoner/${selectedRegion}/${summonerName}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -19,7 +19,7 @@ export class ApiService {
 
   getRankPoints(selectedRegion: string, id: string): Promise<any> {
     return new Promise(resolve => {
-      const a = this.http.get(`http://159.89.2.125/rankPoints/${selectedRegion}/${id}`).subscribe((data) => {
+      const a = this.http.get(`https://summoner-spy.site/rankPoints/${selectedRegion}/${id}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -27,7 +27,7 @@ export class ApiService {
 
   getMasteryPoints(selectedRegion: string, id: string) {
     return new Promise(resolve => {
-      const a = this.http.get(`http://159.89.2.125/masteryPoints/${selectedRegion}/${id}`).subscribe((data) => {
+      const a = this.http.get(`https://summoner-spy.site/masteryPoints/${selectedRegion}/${id}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -35,7 +35,7 @@ export class ApiService {
 
   getAllMatches(selectedRegion: string, puuid: string, start: string, count: string) {
     return new Promise(resolve => {
-      const a = this.http.get(`http://159.89.2.125/allMatches/${selectedRegion}/${puuid}/${start}/${count}`).subscribe((data) => {
+      const a = this.http.get(`https://summoner-spy.site/allMatches/${selectedRegion}/${puuid}/${start}/${count}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -43,7 +43,7 @@ export class ApiService {
 
   getMatch(selectedRegion: string, matchId: string) {
     return new Promise(resolve => {
-      const a = this.http.get(`http://159.89.2.125/match/${selectedRegion}/${matchId}`).subscribe((data) => {
+      const a = this.http.get(`https://summoner-spy.site/match/${selectedRegion}/${matchId}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -51,7 +51,7 @@ export class ApiService {
 
   getLeaderboard(server: string, queueType: string): Promise<any> {
     return new Promise(resolve => {
-      const a: Subscription = this.http.get(`http://159.89.2.125/leaderboards/${server}/${queueType}`).subscribe((data) => {
+      const a: Subscription = this.http.get(`https://summoner-spy.site/leaderboards/${server}/${queueType}`).subscribe((data) => {
         resolve(data);
       });
     });
@@ -59,7 +59,7 @@ export class ApiService {
 
   getFreeRotation(): Promise<any> {
     return new Promise(resolve => {
-      const a: Subscription = this.http.get(`http://159.89.2.125/free-rotation`).subscribe((data) => {
+      const a: Subscription = this.http.get(`https://summoner-spy.site/free-rotation`).subscribe((data) => {
         resolve(data);
       });
     });
