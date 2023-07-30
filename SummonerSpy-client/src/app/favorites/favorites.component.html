@@ -36,8 +36,8 @@
                   </span>
                 </div>
               </div>
-              <div class="dropdown dropdown-top">
-                <button tabindex="0" class="btn btn-neutral"><i class="fa-solid fa-gear"></i></button>
+              <div class="dropdown dropdown-top dropdown-end">
+                <button tabindex="0" class="btn btn-neutral mt-2"><i class="fa-solid fa-gear"></i></button>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                   <li (click)="openSummoner(favoriteSummoner.region, favoriteSummoner.name)"><a><i class="fa-solid fa-arrow-up-right-from-square"></i> Open sumoner</a></li>
                   <li *ngIf="!profileAccount" (click)="addToProfile(favoriteSummoner)"><a><i class="fa-solid fa-user"></i> Add to profile</a></li>
