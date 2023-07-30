@@ -29,6 +29,7 @@ SummonerSpy is an API project that allows you to check your rank, statistics, an
 
 - [Angular](https://angular.io/)
 - [Tailwind](https://tailwindcss.com/) ([DaisyUI](https://daisyui.com/))
+- [Firebase](https://firebase.google.com/)
 - [ExpressJS](https://expressjs.com/)
 
 ## Contact
