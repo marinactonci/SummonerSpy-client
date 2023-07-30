@@ -70,37 +70,17 @@ export class MatchComponent implements OnInit {
       } else {
         if (participant.teamPosition) {
           if (participant.teamId == 100) {
-            if (participant.teamPosition === 'TOP') {
-              this.blueTeam[0] = participant;
-            }
-            if (participant.teamPosition === 'JUNGLE') {
-              this.blueTeam[1] = participant;
-            }
-            if (participant.teamPosition === 'MIDDLE') {
-              this.blueTeam[2] = participant;
-            }
-            if (participant.teamPosition === 'BOTTOM') {
-              this.blueTeam[3] = participant;
-            }
-            if (participant.teamPosition === 'UTILITY') {
-              this.blueTeam[4] = participant;
-            }
+            if (participant.teamPosition === 'TOP') this.blueTeam[0] = participant;
+            if (participant.teamPosition === 'JUNGLE') this.blueTeam[1] = participant;
+            if (participant.teamPosition === 'MIDDLE') this.blueTeam[2] = participant;
+            if (participant.teamPosition === 'BOTTOM') this.blueTeam[3] = participant;
+            if (participant.teamPosition === 'UTILITY') this.blueTeam[4] = participant;
           } else if (participant.teamId == 200) {
-            if (participant.teamPosition === 'TOP') {
-              this.redTeam[0] = participant;
-            }
-            if (participant.teamPosition === 'JUNGLE') {
-              this.redTeam[1] = participant;
-            }
-            if (participant.teamPosition === 'MIDDLE') {
-              this.redTeam[2] = participant;
-            }
-            if (participant.teamPosition === 'BOTTOM') {
-              this.redTeam[3] = participant;
-            }
-            if (participant.teamPosition === 'UTILITY') {
-              this.redTeam[4] = participant;
-            }
+            if (participant.teamPosition === 'TOP') this.redTeam[0] = participant;
+            if (participant.teamPosition === 'JUNGLE') this.redTeam[1] = participant;
+            if (participant.teamPosition === 'MIDDLE') this.redTeam[2] = participant;
+            if (participant.teamPosition === 'BOTTOM') this.redTeam[3] = participant;
+            if (participant.teamPosition === 'UTILITY') this.redTeam[4] = participant;
           }
         } else {
           if (participant.teamId === 100) {
