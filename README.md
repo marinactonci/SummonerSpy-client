@@ -14,6 +14,7 @@
 
 - [Overview](#overview)
   - [Built With](#built-with)
+- [Instalation](#instalation)
 - [Contact](#contact)
 
 <!-- OVERVIEW -->
@@ -23,7 +24,7 @@
 ![screenshot](screenshot.png)
 
 
-SummonerSpy is an API project that allows you to check your rank, statistics, and detailed match history page for League of Legends. It is built using Angular, Node, Tailwind, and Firebase, which are modern web development tools and technologies. SummonerSpy is a great tool for League of Legends players who want to keep track of their gaming progress and learn how they can improve their gameplay.
+SummonerSpy is an API project that allows you to check your rank, statistics, and match history page for League of Legends. It is built using Angular, Node, Tailwind, and Firebase, which are modern web development tools and technologies. SummonerSpy is a great tool for League of Legends players who want to keep track of their gaming progress and learn how they can improve their gameplay.
 
 ### Built With
 
@@ -31,6 +32,20 @@ SummonerSpy is an API project that allows you to check your rank, statistics, an
 - [Tailwind](https://tailwindcss.com/) ([DaisyUI](https://daisyui.com/))
 - [Firebase](https://firebase.google.com/)
 - [ExpressJS](https://expressjs.com/)
+
+## Instalation
+
+Clone this repo and install neccessary dependencies. Make sure that after cloning you cd into the right directory:
+```terminal
+$ git clone https://github.com/marinactonci/SummonerSpy-client.git
+$ cd SummonerSpy-client
+$ npm install
+```
+
+After the dependencies have been installed, you can run the project with:
+```terminal
+$ ng serve
+```
 
 ## Contact
 
