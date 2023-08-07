@@ -97,7 +97,7 @@ export class SummonerComponent implements OnInit{
     for (let i = 0; i < this.matchIds.length; i++) {
       const singleMatch: any = await this.api.getMatch(this.selectedRegion.majorRegion, this.matchIds[i]);
       for (let participant of singleMatch.info.participants) {
-        if (participant.summonerName === this.summonerName) {
+        if (participant.summonerName === this.summoner.name) {
           singleMatch.info.isWin = participant.win;
         }
       }
