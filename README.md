@@ -35,16 +35,38 @@ SummonerSpy is an API project that allows you to check your rank, statistics, an
 
 ## Instalation
 
+### Frontend
+
 Clone this repo and install neccessary dependencies. Make sure that after cloning you cd into the right directory:
 ```terminal
 $ git clone https://github.com/marinactonci/SummonerSpy-client.git
 $ cd SummonerSpy-client
 $ npm install
 ```
-
 After the dependencies have been installed, you can run the project with:
 ```terminal
 $ ng serve
+```
+
+### Backend
+
+In case you want to use your own Riot API key, clone the [backend repo](https://github.com/marinactonci/SummonerSpy-server) and install dependencies:
+```terminal
+$ git clone https://github.com/marinactonci/SummonerSpy-server.git
+$ cd SummonerSpy-server
+$ npm install
+```
+Change the following line in `server.js`:
+```javascript
+axios.defaults.headers.common['X-Riot-Token'] = 'YOUR-RIOT-API-KEY';
+```
+Start the `server.js` file:
+```terminal
+$ npm run start
+```
+Finally, change endpoint to localhost in frontend in constants.ts file:
+```typescript
+export const endpoint: string = 'http://localhost:4320';
 ```
 
 ## Contact
