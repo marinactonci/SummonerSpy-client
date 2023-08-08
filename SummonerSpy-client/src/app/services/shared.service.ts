@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Region} from "../models/region.model";
 
 @Injectable({providedIn: 'root'})
 export class SharedService {

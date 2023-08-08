@@ -1,5 +1,7 @@
 import {Region} from "../models/region.model";
 
+export const endpoint: string = 'https://summoner-spy.site'
+
 export const regions: Region[] = [
   {
     name: 'Europe West',
@@ -626,9 +628,6 @@ export const summonerSpell: {
 export const runes: {
   [key: string]: string;
 } = {
-  "2202": "ShrinkRay",
-
-
   "8100": "Styles/7200_Domination.png",
   "8300": "Styles/7203_Whimsy.png",
   "8000": "Styles/7201_Precision.png",
