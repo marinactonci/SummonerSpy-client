@@ -3,7 +3,7 @@
   <h2 class="text-xl mb-20 text-center">Check out the top players on each server</h2>
   <div class="flex gap-3 justify-center items-center flex-wrap">
     <select class="select border-black border max-w-xs" (change)="onQueueTypeSelect($event.target.value)">
-      <option *ngFor="let queue of queueTypes">{{ queue }}</option>
+      <option *ngFor="let queue of queueTypes">{{ queue.name }}</option>
     </select>
     <select class="select border-black border max-w-xs" (change)="onRegionSelect($event.target.value)">
       <option *ngFor="let region of regionsList">{{ region.name }}</option>

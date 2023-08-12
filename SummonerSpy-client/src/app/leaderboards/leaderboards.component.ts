@@ -12,8 +12,10 @@ import {Leaderboard} from "../models/leaderboard.model";
   styleUrls: ['./leaderboards.component.css']
 })
 export class LeaderboardsComponent implements OnInit {
-  queueTypes: string[] = ['RANKED_SOLO_5x5', 'RANKED_FLEX_SR'];
-  selectedQueueType: string;
+  queueTypes: { name: string, code: string }[] = [
+    { name: 'Ranked Solo/Duo', code: 'RANKED_SOLO_5x5' },
+    { name: 'Ranked Flex', code: 'RANKED_FLEX_SR' }];
+  selectedQueueType: any;
   regionsList: Region[] = [];
   selectedRegion: any;
   leaderboardInfo: Leaderboard[] = [];
@@ -58,7 +60,7 @@ export class LeaderboardsComponent implements OnInit {
     this.tempArr = [];
     let rank: number = 1;
 
-    const data = await this.api.getLeaderboard(this.selectedRegion.code, this.selectedQueueType);
+    const data = await this.api.getLeaderboard(this.selectedRegion.code, this.selectedQueueType.code);
     if (Object.keys(data).length === 0) {
       this.isLoading = false;
       this.hasNoResults = true;
@@ -88,7 +90,7 @@ export class LeaderboardsComponent implements OnInit {
   }
 
   async onQueueTypeSelect(selectedValue: string): Promise<void> {
-    this.selectedQueueType = selectedValue;
+    this.selectedQueueType = this.queueTypes.find(queue => queue.name === selectedValue);
     await this.getLeaderboardData();
   }
 
