@@ -59,7 +59,7 @@
         <button class="join-item btn">Page {{ currentPage }} of {{ maxPage }}</button>
         <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === maxPage">»</button>
       </div>
-      <div class="btn">{{ numberOfResults }} Players</div>
+      <div class="btn">{{ numberOfResults }} {{ numberOfResults === 1 ? 'Player':  'Player'}}</div>
       <select *ngIf="!hasSearched" class="btn" (change)="updateItemsPerPage($event.target.value)" [(ngModel)]="itemsPerPage">
         <option *ngFor="let value of itemsPerPageList" [value]="value">{{ value }}</option>
       </select>
