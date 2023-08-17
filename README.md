@@ -35,6 +35,10 @@ SummonerSpy is an API project that allows you to check your rank, statistics, an
 
 ## Instalation
 
+### Prerequisites
+
+Have the latest version of git and node installed on your computer.
+
 ### Frontend
 
 Clone this repo and install neccessary dependencies. Make sure that after cloning you cd into the right directory:
