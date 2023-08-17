@@ -12,7 +12,7 @@
       <a routerLink="/free-rotation" class="btn btn-ghost text-white">Free Rotation</a>
       <a routerLink="/favorites" class="btn btn-ghost text-white">Favorites</a>
     </div>
-    <div class="drawer md:hidden" *ngIf="isLandingPage">
+    <div class="drawer drawer-end md:hidden" *ngIf="isLandingPage">
       <input id="my-drawer-landing" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
         <label for="my-drawer-landing" class="btn btn-ghost drawer-button text-white text-xl w-14">
@@ -29,7 +29,7 @@
         </ul>
       </div>
     </div>
-    <div class="drawer" *ngIf="!isLandingPage">
+    <div class="drawer drawer-end" *ngIf="!isLandingPage">
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
         <label for="my-drawer" class="btn btn-ghost drawer-button text-white text-xl w-14">
