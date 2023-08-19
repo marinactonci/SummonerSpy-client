@@ -12,7 +12,6 @@ export class MatchComponent implements OnInit {
   player: any;
   gameDuration: any;
   selectedRegion: any;
-  sortedParticipants: any[] = [];
   blueTeam: any[] = [];
   redTeam: any[] = [];
   arenaTeams: any[][] = [[], [], [], []];
@@ -48,9 +47,9 @@ export class MatchComponent implements OnInit {
     } else if (days > 0) {
       this.lastPlayed = days > 1 ? days + ' days ago' : 'a day ago';
     } else if (hours > 0) {
-      this.lastPlayed = hours + ' hours ago';
+      this.lastPlayed = hours > 1 ? hours + ' hours ago': 'an hour ago';
     } else if (minutes > 0) {
-      this.lastPlayed = minutes + ' minutes ago';
+      this.lastPlayed = minutes > 1 ? minutes + ' minutes ago' : 'a minute ago';
     }
 
     for (let participant of this.match.participants) {

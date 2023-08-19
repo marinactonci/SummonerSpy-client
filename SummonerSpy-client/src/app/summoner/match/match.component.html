@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="flex flex-col justify-center">
-    <div class="flex gap-3 items-center max-[370px]:flex-col max-[370px]:justify-center max-[370px]:mb-0 mb-6">
+    <div class="flex gap-3 justify-center items-center max-[370px]:flex-col max-[370px]:justify-center max-[370px]:mb-0 mb-6">
       <div class="flex gap-1">
         <div class="indicator w-12 h-12">
           <span class="indicator-item indicator-bottom indicator-center badge badge-neutral">{{ player.champLevel }}</span>
@@ -29,25 +29,7 @@
                  [alt]="summonerSpell[player.summoner2Id] + ' summoner spell'"/>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-1" *ngIf="arenaTeams[0].length">
-          <div class="w-6 h-6 rounded-sm overflow-hidden">
-            <img [src]="'https://opgg-static.akamaized.net/meta/images/arena/augments/large/' + summonerSpell[player.summoner1Id] + '.png'"
-                 [alt]="summonerSpell[player.summoner1Id] + ' summoner spell'"/>
-          </div>
-          <div class="w-6 h-6 rounded-sm overflow-hidden">
-            <img [src]="'https://opgg-static.akamaized.net/meta/images/arena/augments/large/' + summonerSpell[player.summoner2Id] + '.png'"
-                 [alt]="summonerSpell[player.summoner2Id] + ' summoner spell'"/>
-          </div>
-          <div class="w-6 h-6 rounded-sm overflow-hidden">
-            <img [src]="'https://opgg-static.akamaized.net/meta/images/arena/augments/large/' + summonerSpell[player.summoner2Id] + '.png'"
-                 [alt]="summonerSpell[player.summoner2Id] + ' summoner spell'"/>
-          </div>
-          <div class="w-6 h-6 rounded-sm overflow-hidden">
-            <img [src]="'https://opgg-static.akamaized.net/meta/images/arena/augments/large/' + summonerSpell[player.summoner2Id] + '.png'"
-                 [alt]="summonerSpell[player.summoner2Id] + ' summoner spell'"/>
-          </div>
-        </div>
-        <div class="flex flex-col gap-1" *ngIf="!arenaTeams[0].length">
+        <div class="flex flex-col gap-1" *ngIf="match.gameMode !== 'CHERRY'">
           <div class="w-6 h-6 rounded-full bg-black">
             <img [src]="'https://ddragon.leagueoflegends.com/cdn/img/perk-images/' + runes[player.perks.styles[0].selections[0].perk]"
                  [alt]="'Primary rune'"/>
