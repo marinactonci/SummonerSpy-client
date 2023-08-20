@@ -1,4 +1,4 @@
-<div class="w-full border-l-8 rounded-lg transition duration-150 p-2 flex sm:justify-between gap-8"
+<div *ngIf="player" class="w-full border-l-8 rounded-lg transition duration-150 p-2 flex sm:justify-between gap-8"
      [ngClass]="{'border-[#5383E8] bg-[#ECF2FF]': match.isWin,
      'border-[#E84057] bg-[#FFF1F3]': !match.isWin,
      'border-[#758592] bg-[#F7F7F9]': match.isRemake}">
@@ -66,14 +66,14 @@
       <div *ngFor="let bluePlayer of blueTeam" class="flex w-auto gap-1 items-center max-w-sm">
         <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + bluePlayer.championName + '.png'"
              class="w-6 h-6 rounded-md" [alt]="bluePlayer.championName">
-        <button (click)="openSummoner(bluePlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': bluePlayer.summonerName === summonerName}">{{ bluePlayer.summonerName }}</button>
+        <button (click)="openSummoner(bluePlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': bluePlayer.puuid === summoner.puuid}">{{ bluePlayer.summonerName }}</button>
       </div>
     </div>
     <div class="flex flex-col gap-1">
       <div *ngFor="let redPlayer of redTeam" class="flex w-auto gap-1 items-center max-w-sm">
         <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + redPlayer.championName + '.png'"
              class="w-6 h-6 rounded-md" [alt]="redPlayer.championName">
-        <button (click)="openSummoner(redPlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': redPlayer.summonerName === summonerName}">{{ redPlayer.summonerName }}</button>
+        <button (click)="openSummoner(redPlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': redPlayer.puuid === summoner.puuid}">{{ redPlayer.summonerName }}</button>
       </div>
     </div>
     <div *ngFor="let team of arenaTeams" class="flex flex-col w-auto gap-1 max-w-sm">

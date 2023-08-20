@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {regions, queueIdArray, summonerSpell, runes} from "../../utils/constants";
+import {ApiService} from "../../services/api.service";
 @Component({
   selector: 'app-match',
   templateUrl: './match.component.html',
@@ -9,6 +10,7 @@ import {regions, queueIdArray, summonerSpell, runes} from "../../utils/constants
 export class MatchComponent implements OnInit {
   @Input() match: any;
   @Input() summonerName: any;
+  summoner: any;
   player: any;
   gameDuration: any;
   selectedRegion: any;
@@ -23,12 +25,23 @@ export class MatchComponent implements OnInit {
   items: any[6] = [];
 
   constructor(private router: Router,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private api: ApiService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.gameDuration = this.convertSecondsToMinutes(this.match.gameDuration);
     this.result = this.match.isRemake ? 'Remake' : this.match.isWin ? 'Victory' : 'Defeat';
     this.summonerSpell = summonerSpell;
+
+    const regionCode = this.route.snapshot.params['regionCode'];
+
+    for (let region of regions) {
+      if (region.shorthand === regionCode) {
+        this.selectedRegion = region;
+      }
+    }
+    this.summoner = await this.api.getSummoner(this.selectedRegion.code, this.summonerName);
+
     this.runes = runes;
     for (let queue of queueIdArray) {
       if (queue.queueId === this.match.queueId) {
@@ -53,7 +66,7 @@ export class MatchComponent implements OnInit {
     }
 
     for (let participant of this.match.participants) {
-      if (participant.summonerName === this.summonerName) {
+      if (participant.puuid === this.summoner.puuid) {
         this.player = participant;
         this.items = [ this.player.item0, this.player.item1, this.player.item2, this.player.item3,
           this.player.item4, this.player.item5];
@@ -91,14 +104,6 @@ export class MatchComponent implements OnInit {
   }
 
   openSummoner(item) {
-    const regionCode = this.route.snapshot.params['regionCode'];
-
-    for (let region of regions) {
-      if (region.shorthand === regionCode) {
-        this.selectedRegion = region;
-      }
-    }
-
     if (item.summonerName) {
       const url: string = `summoners/${this.selectedRegion.shorthand}/${item.summonerName}`;
       this.router.navigateByUrl(url).then(r => console.log(r));
