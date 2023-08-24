@@ -108,10 +108,7 @@ export class SummonerComponent implements OnInit{
   async refresh() {
     this.isLoading = true;
     this.resetVariables();
-
     await this.getSummonerData();
-    await this.loadMatches();
-
     this.isLoading = false;
   }
 
@@ -125,7 +122,14 @@ export class SummonerComponent implements OnInit{
     this.rankedFlex = {};
     this.hasRankSolo = false;
     this.hasRankFlex = false;
-    this.isFavorite = false;
+  }
+
+  consoleLogEverything() {
+    console.log("NEW CONSOLE LOGS");
+    console.log(this.start);
+    console.log(this.count);
+    console.log(this.matchIds);
+    console.log(this.matches);
   }
 
   async loadMoreMatches() {
