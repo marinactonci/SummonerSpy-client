@@ -71,7 +71,7 @@ export class MatchComponent implements OnInit {
         this.items = [ this.player.item0, this.player.item1, this.player.item2, this.player.item3,
           this.player.item4, this.player.item5];
         this.player.cs = this.player.totalMinionsKilled + this.player.neutralMinionsKilled;
-        this.player.kda = this.player.deaths === 0 ? 'Perfect KDA' : ((this.player.kills + this.player.assists) / this.player.deaths).toFixed(2);
+        this.player.kda = this.player.kills === 0 && this.player.assists === 0  ? '0.00' : this.player.deaths === 0 && (this.player.kills > 0 || this.player.assists > 0)? 'Perfect KDA' : ((this.player.kills + this.player.assists) / this.player.deaths).toFixed(2);
         this.player.cspm = (this.player.cs / (this.match.gameDuration / 60)).toFixed(1);
       }
 
