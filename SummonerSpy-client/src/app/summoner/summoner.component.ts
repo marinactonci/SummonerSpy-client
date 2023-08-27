@@ -122,6 +122,7 @@ export class SummonerComponent implements OnInit{
     this.rankedFlex = {};
     this.hasRankSolo = false;
     this.hasRankFlex = false;
+    this.isFavorite = false;
   }
 
   consoleLogEverything() {
