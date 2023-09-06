@@ -54,13 +54,13 @@
       <span class="text-xl">No players found!</span>
     </div>
     <div *ngIf="!hasNoResults" class="flex justify-center sm:justify-end gap-3 mt-8 flex-wrap">
-      <div class="join" *ngIf="!hasSearched">
+      <div class="join">
         <button class="join-item btn" (click)="previousPage()" [disabled]="currentPage === 1">«</button>
         <button class="join-item btn">Page {{ currentPage }} of {{ maxPage }}</button>
         <button class="join-item btn" (click)="nextPage()" [disabled]="currentPage === maxPage">»</button>
       </div>
-      <div class="btn">{{ numberOfResults }} {{ numberOfResults === 1 ? 'Player':  'Player'}}</div>
-      <select *ngIf="!hasSearched" class="btn" (change)="updateItemsPerPage($event.target.value)" [(ngModel)]="itemsPerPage">
+      <div class="btn">{{ numberOfResults }} {{ numberOfResults === 1 ? 'Player':  'Players'}}</div>
+      <select class="btn" (change)="updateItemsPerPage($event.target.value)" [(ngModel)]="itemsPerPage">
         <option *ngFor="let value of itemsPerPageList" [value]="value">{{ value }}</option>
       </select>
     </div>

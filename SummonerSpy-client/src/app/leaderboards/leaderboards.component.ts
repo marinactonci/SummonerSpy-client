@@ -140,19 +140,22 @@ export class LeaderboardsComponent implements OnInit {
     if (this.searchValue.length && this.searchValue !== '') {
       this.hasSearched = true;
     }
-    this.leaderboardInfo = this.tempArr.filter(item => item.summonerName.toLowerCase().includes(searchValue.toLowerCase()));
-    if (!this.leaderboardInfo.length) {
+    this.tempArr = this.tempArr.filter(item => item.summonerName.toLowerCase().includes(searchValue.toLowerCase()));
+    if (!this.tempArr.length) {
       this.hasNoResults = true;
     }
-    this.numberOfResults = this.leaderboardInfo.length;
+    this.numberOfResults = this.tempArr.length;
+    this.currentPage = 1;
+    this.maxPage = Math.ceil(this.tempArr.length / this.itemsPerPage);
+    this.updateLeaderboard();
   }
 
-  clear() {
+  async clear() {
     this.hasSearched = false;
     this.searchValue = '';
     this.hasNoResults = false;
-    this.numberOfResults = this.tempArr.length;
-    this.updateLeaderboard();
+    this.currentPage = 1;
+    await this.getLeaderboardData();
   }
 
   openSummoner(item) {
