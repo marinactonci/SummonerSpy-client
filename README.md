@@ -41,7 +41,7 @@ Have the latest version of git and node installed on your computer.
 
 ### Frontend
 
-Clone this repo and install neccessary dependencies. Make sure that after cloning you cd into the right directory:
+Clone this repo and install neccessary dependencies. Make sure that after cloning, you cd into the right directory:
 ```terminal
 $ git clone https://github.com/marinactonci/SummonerSpy-client.git
 $ cd SummonerSpy-client
