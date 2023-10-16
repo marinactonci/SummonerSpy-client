@@ -86,7 +86,7 @@ export class SummonerComponent implements OnInit{
       if (this.hasRankFlex) this.rankedFlex.winrate = Math.round((this.rankedFlex?.wins / (this.rankedFlex?.wins + this.rankedFlex?.losses)) * 100);
     }
 
-    this.masteryPoints = await this.api.getMasteryPoints(this.selectedRegion.code, this.summoner.id);
+    this.masteryPoints = await this.api.getMasteryPoints(this.selectedRegion.code, this.summoner.puuid);
 
     await this.loadMatches();
   }
