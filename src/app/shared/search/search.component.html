@@ -1,0 +1,53 @@
+<div *ngIf="!isHeader">
+  <!--DESKTOP-->
+  <div class="gap-3 justify-center w-full hidden sm:flex">
+    <div class="join">
+      <select class="select join-item w-auto" (change)="onRegionSelect($event.target.value)">
+        <option disabled selected>Region</option>
+        <option *ngFor="let region of regionsList" [value]="region.name">{{region.name}}</option>
+      </select>
+      <div>
+        <input class="input join-item w-auto"
+               type="text"
+               placeholder="Search..."
+               [(ngModel)]="summonerName"
+               (keyup.enter)="search()">
+      </div>
+      <button *ngIf="!isHeader" class="join-item btn" (click)="search()">
+        Search
+      </button>
+    </div>
+  </div>
+  <!--MOBILE-->
+  <div class="gap-3 flex-col justify-center w-full flex sm:hidden">
+    <select class="select join-item w-auto" (change)="onRegionSelect($event.target.value)">
+      <option disabled selected>Region</option>
+      <option *ngFor="let region of regionsList" [value]="region.name">{{region.name}}</option>
+    </select>
+    <input class="input join-item w-auto"
+           type="text"
+           placeholder="Search..."
+           [(ngModel)]="summonerName"
+           (keyup.enter)="search()">
+    <button class="join-item btn" (click)="search()">
+      Search
+    </button>
+  </div>
+</div>
+<div *ngIf="isHeader">
+  <div class="gap-3 justify-center w-full hidden sm:flex">
+    <div class="join">
+      <select class="select join-item w-auto" (change)="onRegionSelect($event.target.value)">
+        <option disabled selected>Region</option>
+        <option *ngFor="let region of regionsList" [value]="region.name">{{region.name}}</option>
+      </select>
+      <div>
+        <input class="input join-item w-auto"
+               type="text"
+               placeholder="Search..."
+               [(ngModel)]="summonerName"
+               (keyup.enter)="search()">
+      </div>
+    </div>
+  </div>
+</div>

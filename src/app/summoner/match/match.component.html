@@ -1,0 +1,88 @@
+<div *ngIf="player" class="w-full border-l-8 rounded-lg transition duration-150 p-2 flex sm:justify-between gap-8"
+     [ngClass]="{'border-[#5383E8] bg-[#ECF2FF]': match.isWin,
+     'border-[#E84057] bg-[#FFF1F3]': !match.isWin,
+     'border-[#758592] bg-[#F7F7F9]': match.isRemake}">
+  <div class="flex items-center">
+    <div>
+      <h1 class="font-bold" [ngClass]="{ 'text-[#4171D6]': match.isWin, 'text-[#D31A45]': !match.isWin, 'text-[#57646F]': match.isRemake }">{{ gameMode }}</h1>
+      <div>{{ lastPlayed }}</div>
+      <div class="divider m-0 divider-red"></div>
+      <div>{{ result }}</div>
+      <div>{{ gameDuration }}</div>
+    </div>
+  </div>
+  <div class="flex flex-col justify-center">
+    <div class="flex gap-3 justify-center items-center max-[370px]:flex-col max-[370px]:justify-center max-[370px]:mb-0 mb-6">
+      <div class="flex gap-1">
+        <div class="indicator w-12 h-12">
+          <span class="indicator-item indicator-bottom indicator-center badge badge-neutral">{{ player.champLevel }}</span>
+          <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + player.championName + '.png'"
+               class="w-12 h-12 rounded-full" [alt]="player.championName">
+        </div>
+        <div class="flex flex-col gap-1" *ngIf="!arenaTeams[0].length">
+          <div class="w-6 h-6 rounded-sm overflow-hidden">
+            <img [src]="'http://ddragon.leagueoflegends.com/cdn/13.5.1/img/spell/' + summonerSpell[player.summoner1Id]"
+                 [alt]="summonerSpell[player.summoner1Id] + ' summoner spell'"/>
+          </div>
+          <div class="w-6 h-6 rounded-sm overflow-hidden">
+            <img [src]="'http://ddragon.leagueoflegends.com/cdn/13.5.1/img/spell/' + summonerSpell[player.summoner2Id]"
+                 [alt]="summonerSpell[player.summoner2Id] + ' summoner spell'"/>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1" *ngIf="match.gameMode !== 'CHERRY'">
+          <div class="w-6 h-6 rounded-full bg-black">
+            <img [src]="'https://ddragon.leagueoflegends.com/cdn/img/perk-images/' + runes[player.perks.styles[0].selections[0].perk]"
+                 [alt]="'Primary rune'"/>
+          </div>
+          <div class="w-6 h-6 rounded-full">
+            <img [src]="'https://ddragon.leagueoflegends.com/cdn/img/perk-images/' + runes[player.perks.styles[1].style]"
+                 [alt]="'Secondary rune'"/>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span>{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</span>
+        <span>{{ player.kda }} {{ player.kda !== 'Perfect KDA' ? 'KDA': ''}}</span>
+        <span>CS {{ player.cs }} ({{ player.cspm }})</span>
+      </div>
+    </div>
+    <div class="flex gap-1 items-center max-[370px]:hidden">
+      <div class="grid grid-cols-items gap-1">
+        <div class="h-6 w-6 rounded-sm overflow-hidden" *ngFor="let item of items">
+          <img *ngIf="item"
+               [src]="'https://opgg-static.akamaized.net/meta/images/lol/item/' + item + '.png'"/>
+          <div *ngIf="!item" class="h-6 w-6 bg-gray-500 rounded-sm overflow-hidden"></div>
+        </div>
+      </div>
+      <div class="relative">
+        <img class="rounded-full w-6 h-6"
+             [src]="'https://opgg-static.akamaized.net/meta/images/lol/item/' + player.item6 + '.png'"/>
+        <span *ngIf="player.visionScore || match.gameMode === 'CLASSIC'" class="grid place-items-center absolute -bottom-1 -right-1 rounded-full bg-neutral w-4 h-4 text-[8px] text-white">{{ player.visionScore }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="hidden sm:grid sm:grid-cols-match sm:gap-x-5" [ngClass]="{'sm:gap-y-5': arenaTeams[0].length}">
+    <div class="flex flex-col gap-1">
+      <div *ngFor="let bluePlayer of blueTeam" class="flex w-auto gap-1 items-center max-w-sm">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + bluePlayer.championName + '.png'"
+             class="w-6 h-6 rounded-md" [alt]="bluePlayer.championName">
+        <button (click)="openSummoner(bluePlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': bluePlayer.puuid === summoner.puuid}">{{ bluePlayer.summonerName }}</button>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1">
+      <div *ngFor="let redPlayer of redTeam" class="flex w-auto gap-1 items-center max-w-sm">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + redPlayer.championName + '.png'"
+             class="w-6 h-6 rounded-md" [alt]="redPlayer.championName">
+        <button (click)="openSummoner(redPlayer)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': redPlayer.puuid === summoner.puuid}">{{ redPlayer.summonerName }}</button>
+      </div>
+    </div>
+    <div *ngFor="let team of arenaTeams" class="flex flex-col w-auto gap-1 max-w-sm">
+      <div *ngFor="let arenaParticipant of team" class="flex gap-1">
+        <img [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + arenaParticipant.championName + '.png'"
+             [alt]="arenaParticipant.championName" width="25" height="25"
+             class="w-6 h-6 rounded-md">
+        <button (click)="openSummoner(arenaParticipant)" class="text-xs whitespace-nowrap transition duration-150 hover:text-blue-700" [ngClass]="{'font-bold': arenaParticipant.summonerName === summonerName}">{{ arenaParticipant.summonerName }}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="relative h-[calc(100vh-64px-80px)]">
+  <video autoplay
+         loop
+         [muted]="'muted'"
+         class="absolute w-full h-full object-cover bg-center z-0">
+    <source
+      src="assets/videos/dark-star-thresh.mp4"
+      type="video/mp4" class="absolute"/>
+  </video>
+  <div class="flex flex-col gap-3 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 w-full">
+    <h2 class="text-3xl md:text-6xl text-white text-center">Search for a player</h2>
+    <div class="flex justify-center">
+      <app-search></app-search>
+    </div>
+  </div>
+</div>

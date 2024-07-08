@@ -1,0 +1,79 @@
+<section class="container mx-auto py-28 px-[20px] min-h-[calc(100vh-80px-64px)]">
+  <h1 class="text-3xl font-bold text-center mb-3 uppercase">Manage Your Profile and Accounts</h1>
+  <h2 class="text-xl mb-20 text-center">Take control of your password and linked account</h2>
+  <div class="tabs">
+    <a class="tab tab-lg tab-lifted tab-active" (click)="changeTab($event.target, $event.target.value)">Password</a>
+    <a class="tab tab-lg tab-lifted" (click)="changeTab($event.target, $event.target.value)">Summoner</a>
+  </div>
+  <div *ngIf="currentTab === 'summoner'">
+    <div *ngIf="!profileAccount" class="p-6">Add an account to your profile so it can be visible here!</div>
+    <div *ngIf="profileAccount" class="p-6 max-w-[500px]">
+      <div class="border border-neutral rounded-lg p-4 flex flex-col sm:flex-row items-center sm:items-start gap-3">
+        <div class="indicator h-[100px]">
+          <span class="indicator-item indicator-bottom indicator-center badge badge-neutral">{{ profileSummoner.level }}</span>
+          <img class="rounded-lg min-w-[100px]"
+               width="100" height="100"
+               [src]="'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon' + profileSummoner.icon + '.jpg'"
+               [alt]="'Profile icon for ' + profileSummoner.name">
+        </div>
+        <div class="flex flex-col items-center justify-between sm:items-start h-full w-full">
+          <div class="flex gap-1 items-center justify-between w-full flex-wrap">
+            <h1 class="text-2xl font-bold">{{ profileSummoner.name }}</h1>
+            <span>{{ profileSummoner.region.toUpperCase() }}</span>
+          </div>
+          <div class="flex w-full justify-between items-center">
+            <div>
+              <div>
+                <span class="font-bold">Solo/Duo: </span>
+                <span class="whitespace-nowrap" *ngIf="profileSummoner.soloRank; else unranked">
+                    {{ profileSummoner.soloRank.tier }} {{ profileSummoner.soloRank.rank }}
+                  </span>
+              </div>
+              <div>
+                <span class="font-bold">Flex: </span>
+                <span class="whitespace-nowrap" *ngIf="profileSummoner.flexRank; else unranked">
+                    {{ profileSummoner.flexRank.tier }} {{ profileSummoner.flexRank.rank }}
+                  </span>
+              </div>
+            </div>
+            <div class="dropdown dropdown-top dropdown-end">
+              <button tabindex="0" class="btn btn-neutral mt-2"><i class="fa-solid fa-gear"></i></button>
+              <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li (click)="openSummoner()"><a><i class="fa-solid fa-arrow-up-right-from-square"></i> Open summoner</a></li>
+                <li *ngIf="profileAccount" (click)="removeFromProfile()"><a><i class="fa-solid fa-user"></i> Remove from profile</a></li>
+                <li *ngIf="isFavorite" (click)="removeFavorite()"><a><i class="fa-solid fa-trash"></i> Remove favorite</a></li>
+                <li *ngIf="!isFavorite" (click)="addToFavorites()"><a><i class="fa-solid fa-trash"></i> Add to favorites</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentTab === 'password'" class="p-6">
+    <h1 class="text-xl font-bold mb-3">Change password</h1>
+    <form class="flex flex-col gap-2">
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Current password</span>
+        </label>
+        <input type="password" name="password" class="input input-bordered w-full max-w-xs" [(ngModel)]="password"/>
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">New password</span>
+        </label>
+        <input type="password" name="newPassword" class="input input-bordered w-full max-w-xs" [(ngModel)]="newPassword"/>
+      </div>
+      <div class="form-control w-full max-w-xs">
+        <label class="label">
+          <span class="label-text">Repeat password</span>
+        </label>
+        <input type="password" name="repeatPassword" class="input input-bordered w-full max-w-xs" [(ngModel)]="repeatPassword"/>
+      </div>
+      <div><button class="btn btn-neutral mt-2" (click)="changePassword()">Change password</button></div>
+    </form>
+  </div>
+</section>
+
+<ng-template #unranked>Unranked</ng-template>

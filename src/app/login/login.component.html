@@ -1,0 +1,26 @@
+<section class="container mx-auto py-28 px-[20px] min-h-[calc(100vh-80px-64px)] flex justify-center items-center">
+  <div class="p-4 sm:p-12 border-2 border-neutral rounded-xl sm:min-w-[500px]">
+    <h1 class="text-2xl mb-4 font-bold">Login</h1>
+    <form class="flex flex-col space-y-4 mb-2">
+      <div class="flex flex-col space-y-2">
+        <label for="email" class="text-sm">Email</label>
+        <input type="email" name="email" id="email" [(ngModel)]="email"
+               class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      </div>
+      <div class="flex flex-col space-y-2">
+        <label for="password" class="text-sm">Password</label>
+        <input type="password" name="password" id="password"  [(ngModel)]="password"
+               class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      </div>
+      <div class="flex flex-col space-y-2">
+        <button type="submit" class="btn btn-neutral" (click)="login()">
+          <span class="loading loading-spinner loading-lg" *ngIf="isLoading"></span>
+          <span *ngIf="!isLoading">Login</span>
+        </button>
+      </div>
+    </form>
+    <div class="flex w-full justify-center">
+      <span class="text-sm text-center">Don't have an account? <a routerLink="/register" class="link">Register</a>!</span>
+    </div>
+  </div>
+</section>

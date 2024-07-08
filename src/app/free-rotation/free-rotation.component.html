@@ -1,0 +1,15 @@
+<section class="container mx-auto py-28 px-3 min-h-[calc(100vh-80px-64px)]">
+  <h1 class="text-center text-3xl uppercase font-bold mb-8">Free Champion Rotation</h1>
+  <h2 class="text-center text-xl mb-24">Discover this week's selection of free Champions in League of Legends</h2>
+  <div *ngIf="isLoading" class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>
+  <div *ngIf="!isLoading" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div *ngFor="let id of freeChampionIds" class="relative rounded-lg overflow-hidden group">
+      <img
+        class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+        [src]="'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + champions[id] + '_0.jpg'"
+        [alt]="champions[id]">
+      <span class="absolute sm:text-2xl z-20 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 text-white">{{ champions[id] }}</span>
+      <div class="absolute inset-0 bg-black opacity-30 sm:opacity-0 sm:hover:opacity-30 transition-opacity duration-300"></div>
+    </div>
+  </div>
+</section>

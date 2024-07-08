@@ -1,0 +1,68 @@
+<div class="navbar bg-neutral flex justify-between">
+  <div class="flex items-center">
+    <a class="btn btn-ghost normal-case text-xl text-white" routerLink="/">Summoner Spy</a>
+  </div>
+  <div *ngIf="!isLandingPage" class="form-control hidden w-80 md:flex">
+    <app-search [isHeader]="true"></app-search>
+  </div>
+  <div class="gap-2">
+    <div *ngIf="isLandingPage" class="hidden md:block">
+      <a routerLink="/" class="btn btn-ghost text-white">Home</a>
+      <a routerLink="/leaderboards" class="btn btn-ghost text-white">Leaderboards</a>
+      <a routerLink="/free-rotation" class="btn btn-ghost text-white">Free Rotation</a>
+      <a routerLink="/favorites" class="btn btn-ghost text-white">Favorites</a>
+    </div>
+    <div class="drawer drawer-end md:hidden" *ngIf="isLandingPage">
+      <input id="my-drawer-landing" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <label for="my-drawer-landing" class="btn btn-ghost drawer-button text-white text-xl w-14">
+          <i class="fas fa-bars"></i>
+        </label>
+      </div>
+      <div class="drawer-side z-40">
+        <label for="my-drawer-landing" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 h-full bg-base-300 text-base-content">
+          <li><a routerLink="/" class="uppercase">Home</a></li>
+          <li><a routerLink="/leaderboards" class="uppercase">Leaderboards</a></li>
+          <li><a routerLink="/free-rotation" class="uppercase">Free Rotation</a></li>
+          <li><a routerLink="/favorites" class="uppercase">Favorites</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="drawer drawer-end" *ngIf="!isLandingPage">
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <label for="my-drawer" class="btn btn-ghost drawer-button text-white text-xl w-14">
+          <i class="fas fa-bars"></i>
+        </label>
+      </div>
+      <div class="drawer-side z-40">
+        <label for="my-drawer" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 h-full bg-base-300 text-base-content">
+          <li><a routerLink="/" class="uppercase">Home</a></li>
+          <li><a routerLink="/leaderboards" class="uppercase">Leaderboards</a></li>
+          <li><a routerLink="/free-rotation" class="uppercase">Free Rotation</a></li>
+          <li><a routerLink="/favorites" class="uppercase">Favorites</a></li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn" *ngIf="!isLoggedIn" (click)="login()">Log In</button>
+    <div class="dropdown dropdown-end" *ngIf="isLoggedIn">
+      <button tabindex="0" class="btn btn-ghost w-[85px] h-[50px] flex items-center">
+        <img src="./assets/images/default-profile.png" alt="Default profile icon">
+      </button>
+      <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+        <li class="max-w-full"><a class="truncate max-w-full">{{ user.email }}</a></li>
+        <hr class="my-2">
+        <li *ngIf="!hasProfileAccount" class="disabled"><a>Account profile</a></li>
+        <li *ngIf="hasProfileAccount">
+          <a [routerLink]="'/summoners/' + profileAccount.region + '/' + profileAccount.name">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> {{ profileAccount.name }}
+          </a>
+        </li>
+        <li><a routerLink="/profile"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a routerLink="/" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

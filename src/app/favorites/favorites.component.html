@@ -1,0 +1,59 @@
+<section class="container mx-auto py-28 px-[20px] min-h-[calc(100vh-80px-64px)]">
+  <h1 class="text-3xl font-bold text-center mb-3 uppercase">Easily Access and Manage Your Favorite LoL Profiles</h1>
+  <h2 class="text-xl mb-20 text-center">Keep your favorite League of Legends accounts at your fingertips</h2>
+  <div *ngIf="isLoading" class="flex justify-center mt-20"><span class="loading loading-spinner loading-lg"></span></div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="!isLoggedIn" class="flex flex-col gap-4 w-full h-full justify-center items-center">
+      <span class="text-xl">You need to be logged in to have favorites!</span>
+      <div class="flex justify-center"><button class="btn btn-neutral" (click)="login()">Log In</button></div>
+    </div>
+    <div *ngIf="isLoggedIn">
+      <div *ngIf="!favorites.length" class="text-center text-xl">You haven't added any Summoners as your favorite!</div>
+      <div *ngIf="favorites.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let favoriteSummoner of favoriteSummoners" class="border border-neutral rounded-lg p-4 flex flex-col sm:flex-row items-center sm:items-start gap-3">
+          <div class="indicator h-[100px]">
+            <span class="indicator-item indicator-bottom indicator-center badge badge-neutral">{{ favoriteSummoner.level }}</span>
+            <img class="rounded-lg min-w-[100px]"
+                 width="100" height="100"
+                 [src]="'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon' + favoriteSummoner.icon + '.jpg'"
+                 [alt]="'Profile icon for ' + favoriteSummoner.name">
+          </div>
+          <div class="flex flex-col items-center justify-between sm:items-start h-full w-full">
+            <div class="flex gap-1 items-center justify-between w-full flex-wrap">
+              <h1 class="text-2xl font-bold">{{ favoriteSummoner.name }}</h1>
+              <span>{{ favoriteSummoner.region.toUpperCase() }}</span>
+            </div>
+            <div class="flex w-full justify-between items-center">
+              <div>
+                <div>
+                  <span class="font-bold">Solo/Duo: </span>
+                  <span class="whitespace-nowrap" *ngIf="favoriteSummoner.soloRank; else unranked">
+                    {{ favoriteSummoner.soloRank.tier }} {{ favoriteSummoner.soloRank.rank }}
+                  </span>
+                </div>
+                <div>
+                  <span class="font-bold">Flex: </span>
+                  <span class="whitespace-nowrap" *ngIf="favoriteSummoner.flexRank; else unranked">
+                    {{ favoriteSummoner.flexRank.tier }} {{ favoriteSummoner.flexRank.rank }}
+                  </span>
+                </div>
+              </div>
+              <div class="dropdown dropdown-top dropdown-end">
+                <button tabindex="0" class="btn btn-neutral mt-2"><i class="fa-solid fa-gear"></i></button>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li (click)="openSummoner(favoriteSummoner.region, favoriteSummoner.name)"><a><i class="fa-solid fa-arrow-up-right-from-square"></i> Open summoner</a></li>
+                  <li *ngIf="!profileAccount" (click)="addToProfile(favoriteSummoner)"><a><i class="fa-solid fa-user"></i> Add to profile</a></li>
+                  <li *ngIf="profileAccount && !favoriteSummoner.profileAccount" class="disabled"><a><i class="fa-solid fa-user"></i> Add to profile</a></li>
+                  <li *ngIf="profileAccount && favoriteSummoner.profileAccount" (click)="removeFromProfile(favoriteSummoner)"><a><i class="fa-solid fa-user"></i> Remove from profile</a></li>
+                  <li (click)="removeFavorite(favoriteSummoner.code, favoriteSummoner.name)"><a><i class="fa-solid fa-trash"></i> Remove favorite</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #unranked>Unranked</ng-template>

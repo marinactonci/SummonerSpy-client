@@ -1,0 +1,152 @@
+<section class="container mx-auto py-28 min-h-[calc(100vh-80px-64px)]">
+  <div *ngIf="isLoading" class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="!isSummonerFound" class="flex flex-col justify-center items-center">
+      <img src="./assets/images/summoner-not-found.png" alt="Summoner not found" width="100" height="100">
+      <span>Summoner not found</span>
+    </div>
+    <div *ngIf="isSummonerFound" class="grid grid-cols-1 px-4 xl:grid-cols-custom gap-8">
+      <div class="h-full w-full">
+        <div class="top-8 flex flex-col gap-8">
+          <div class="flex gap-3 border-2 border-neutral rounded-lg p-4 flex-wrap">
+            <div class="indicator h-[100px]">
+              <span class="indicator-item indicator-bottom indicator-center badge badge-neutral">{{ summoner.summonerLevel }}</span>
+              <img class="rounded-lg min-w-[100px]"
+                   width="100" height="100"
+                   [src]="'https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon' + summoner.profileIconId + '.jpg'"
+                   [alt]="'Profile icon for ' + summonerName">
+            </div>
+            <div>
+              <div class="flex gap-3 items-center mb-3">
+                <h1 class="text-2xl font-bold">{{ summoner.name }}</h1>
+                <button class="btn btn-warning group" [ngClass]="{'btn-outline': !isFavorite, 'text-white': isFavorite}" *ngIf="isLoggedIn" (click)="toggleFavorite()">
+                  <i class="fa-solid fa-star text-lg group-hover:text-white"></i>
+                </button>
+              </div>
+              <div class="flex gap-3 flex-wrap">
+                <button class="btn btn-neutral" (click)="refresh()">Refresh</button>
+                <div *ngIf="isAddToProfileVisible">
+                  <button class="btn btn-outline btn-ghost" *ngIf="isLoggedIn && !isAddedToProfile" (click)="addToProfile()">Add to Profile</button>
+                  <button class="btn btn-outline btn-ghost" *ngIf="isLoggedIn && isAddedToProfile" (click)="removeFromProfile()">Remove from Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="hasRankSolo; else unrankedSolo" class="border-2 border-neutral rounded-lg p-4">
+            <h2 class="text-xl font-bold">Ranked Solo</h2>
+            <hr class="my-2">
+            <div class="flex gap-3 max-[375px]:flex-col">
+              <img class="min-w-[75px]" [src]="'https://opgg-static.akamaized.net/images/medals_new/' + rankedSolo.tier.toLowerCase() + '.png'"
+                   width="75" height="75"/>
+              <div class="flex justify-between w-full flex-wrap">
+                <div class="flex flex-col justify-center gap-3">
+                  <h1 class="font-bold">{{ rankedSolo.tier }} {{ rankedSolo.rank }}</h1>
+                  <span>{{ rankedSolo.leaguePoints }} LP</span>
+                </div>
+                <div class="flex flex-col justify-center gap-3">
+                  <div class="flex gap-3">
+                    <span>{{ rankedSolo.wins }}W</span>
+                    <span>{{ rankedSolo.losses }}L</span>
+                  </div>
+                  <div>
+                    Winrate: <span [class]="{ 'text-red-900': rankedSolo.winrate <= 50, 'text-green-900': rankedSolo.winrate > 50 }">{{ rankedSolo.winrate }}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="hasRankFlex; else unrankedFlex" class="border-2 border-neutral rounded-lg p-4 w-full">
+            <h2 class="text-xl font-bold">Ranked Flex</h2>
+            <hr class="my-2">
+            <div class="flex gap-3 max-[375px]:flex-col">
+              <img class="min-w-[75px]" [src]="'https://opgg-static.akamaized.net/images/medals_new/' + rankedFlex.tier.toLowerCase() + '.png'"
+                   width="75" height="75"/>
+              <div class="flex justify-between w-full flex-wrap">
+                <div class="flex flex-col justify-center gap-3">
+                  <h1 class="font-bold">{{ rankedFlex.tier }} {{ rankedFlex.rank }}</h1>
+                  <span>{{ rankedFlex.leaguePoints }} LP</span>
+                </div>
+                <div class="flex flex-col justify-center gap-3">
+                  <div class="flex gap-3">
+                    <span>{{ rankedFlex.wins }}W</span>
+                    <span>{{ rankedFlex.losses }}L</span>
+                  </div>
+                  <div>
+                    Winrate: <span [class]="{ 'text-red-900': rankedFlex.winrate <= 50, 'text-green-900': rankedFlex.winrate > 50 }">{{ rankedFlex.winrate }}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border-2 border-neutral rounded-lg p-4 min-h-[350px]">
+            <h2 class="text-xl font-bold">Top 3 Champions per Mastery points</h2>
+            <hr class="my-2">
+            <div class="flex justify-around gap-8">
+              <div class="translate-y-12 flex flex-col gap-1 items-center">
+                <h3 class="text-lg font-bold whitespace-nowrap">#2 {{ champions[masteryPoints[1].championId] }}</h3>
+                <img class="rounded-lg" [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + champions[masteryPoints[1].championId] + '.png'"
+                     [alt]="champions[masteryPoints[1].championId]" height="75" width="75">
+                <img [src]="'./assets/images/Mastery' + masteryPoints[1].championLevel + '.png'"
+                     [alt]="'Mastery level ' + masteryPoints[1].championLevel" height="50" width="50">
+                <h3>{{ masteryPoints[1].championPoints }}</h3>
+              </div>
+              <div class="flex flex-col gap-1 items-center">
+                <h3 class="text-lg font-bold whitespace-nowrap">#1 {{ champions[masteryPoints[0].championId] }}</h3>
+                <img class="rounded-lg" [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + champions[masteryPoints[0].championId] + '.png'"
+                     [alt]="champions[masteryPoints[0].championId]" height="75" width="75">
+                <img [src]="'./assets/images/Mastery' + masteryPoints[0].championLevel + '.png'"
+                     [alt]="'Mastery level ' + masteryPoints[0].championLevel" height="50" width="50">
+                <h3>{{ masteryPoints[0].championPoints }}</h3>
+              </div>
+              <div class="translate-y-12 flex flex-col gap-1 items-center">
+                <h3 class="text-lg font-bold whitespace-nowrap">#3 {{ champions[masteryPoints[2].championId] }}</h3>
+                <img class="rounded-lg" [src]="'https://opgg-static.akamaized.net/meta/images/lol/champion/' + champions[masteryPoints[2].championId] + '.png'"
+                     [alt]="champions[masteryPoints[2].championId]" height="75" width="75">
+                <img [src]="'./assets/images/Mastery' + masteryPoints[2].championLevel + '.png'"
+                     [alt]="'Mastery level ' + masteryPoints[2].championLevel" height="50" width="50">
+                <h3>{{ masteryPoints[2].championPoints }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-full w-full flex flex-col gap-3">
+        <div *ngFor="let match of matches">
+          <app-match [match]="match.info" [summonerName]="summoner.name"></app-match>
+        </div>
+        <div class="flex justify-center mt-8">
+          <button *ngIf="!isLoadingMore" class="btn btn-neutral" (click)="loadMoreMatches()">Load More</button>
+          <div *ngIf="isLoadingMore" class="flex justify-center"><span class="loading loading-spinner loading-lg"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #unrankedSolo>
+  <div class="border-2 border-neutral rounded-lg p-4">
+    <h2 class="text-xl font-bold">Ranked Solo</h2>
+    <hr class="my-2">
+    <div class="flex gap-3">
+      <img class="min-w-[75px]" src="./assets/images/unranked.webp"
+           width="75" height="75"/>
+      <div class="flex justify-center items-center gap-3">
+        <h1 class="font-bold">Unranked</h1>
+        <span class="hidden sm:block">Finish your placements to get a rank</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #unrankedFlex>
+  <div class="border-2 border-neutral rounded-lg p-4">
+    <h2 class="text-xl font-bold">Ranked Flex</h2>
+    <hr class="my-2">
+    <div class="flex gap-3">
+      <img class="min-w-[75px]" src="./assets/images/unranked.webp"
+           width="75" height="75"/>
+      <div class="flex justify-center items-center gap-3">
+        <h1 class="font-bold">Unranked</h1>
+        <span class="hidden sm:block">Finish your placements to get a rank</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

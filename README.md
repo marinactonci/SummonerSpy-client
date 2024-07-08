@@ -1,80 +1,27 @@
-<h1 align="center">Summoner Spy</h1>
+# SummonerSpy
 
-<div align="center">
-  <h3>
-    <a href="https://summoner-spy.vercel.app/">
-      Demo
-    </a>
-  </h3>
-</div>
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.5.
 
-<!-- TABLE OF CONTENTS -->
+## Development server
 
-## Table of Contents
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-- [Overview](#overview)
-  - [Built With](#built-with)
-- [Instalation](#instalation)
-- [Contact](#contact)
+## Code scaffolding
 
-<!-- OVERVIEW -->
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Overview
+## Build
 
-![screenshot](screenshot.png)
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Running unit tests
 
-SummonerSpy is an API project that allows you to check your rank, statistics, and match history page for League of Legends. It is built using Angular, Node, Tailwind, and Firebase, which are modern web development tools and technologies. SummonerSpy is a great tool for League of Legends players who want to keep track of their gaming progress and learn how they can improve their gameplay.
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Built With
+## Running end-to-end tests
 
-- [Angular](https://angular.io/)
-- [Tailwind](https://tailwindcss.com/) ([DaisyUI](https://daisyui.com/))
-- [Firebase](https://firebase.google.com/)
-- [ExpressJS](https://expressjs.com/)
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Instalation
+## Further help
 
-### Prerequisites
-
-Have the latest version of git and node installed on your computer.
-
-### Frontend
-
-Clone this repo and install neccessary dependencies. Make sure that after cloning, you cd into the right directory:
-```terminal
-$ git clone https://github.com/marinactonci/SummonerSpy-client.git
-$ cd SummonerSpy-client
-$ npm install
-```
-After the dependencies have been installed, you can run the project with:
-```terminal
-$ ng serve
-```
-
-### Backend
-
-In case you want to use your own Riot API key, clone the [backend repo](https://github.com/marinactonci/SummonerSpy-server) and install dependencies:
-```terminal
-$ git clone https://github.com/marinactonci/SummonerSpy-server.git
-$ cd SummonerSpy-server
-$ npm install
-```
-Change the following line in `server.js`:
-```javascript
-axios.defaults.headers.common['X-Riot-Token'] = 'YOUR-RIOT-API-KEY';
-```
-Start the `server.js` file:
-```terminal
-$ npm run start
-```
-Finally, change endpoint to localhost in frontend in constants.ts file:
-```typescript
-export const endpoint: string = 'http://localhost:4320';
-```
-
-## Contact
-
-- GitHub [@marinactonci](https://github.com/marinactonci)
-- LinkedIn [Tonči Marinac](https://www.linkedin.com/in/marinactonci/)
-- Instagram [@marinactonci](https://instagram.com/marinactonci)
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
